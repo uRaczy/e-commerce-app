@@ -7,20 +7,30 @@ import Homepage from './pages/homepage/homepage.component';
 import ShopPage from './pages/shop/shop.component';
 import Header from './components/header/header.component';
 import SignInAndSignUpPage from './pages/sign-in-and-sign-out/sign-in-and-sign-out.component';
-import { auth } from './firebase/firebase.utility';
+import { auth, createUserProfileDocument } from './firebase/firebase.utility';
+import Toggle from './components/test/test.component';
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
-    const unlisten = auth.onAuthStateChanged(user => {
-      user 
-        ? setCurrentUser(user)
-        : setCurrentUser(null);
-        console.log(currentUser);
+    const unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
+      if (userAuth){
+        const userRef = await createUserProfileDocument(userAuth);
+
+        userRef.onSnapshot(snapShot => {
+          setCurrentUser({
+            id: snapShot.id,
+            ...snapShot.data()
+          });
+        });  
+      }
+      else {
+        setCurrentUser(null);
+      }
     });
-    return () => unlisten();
-  },[currentUser]);
+    return () => unsubscribeFromAuth();
+  }, []);
 
   return(
     <BrowserRouter>

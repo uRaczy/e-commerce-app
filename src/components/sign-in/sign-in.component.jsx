@@ -45,11 +45,12 @@ class SignIn extends Component {
           />
 
           <FormInput 
-            name='password' 
+            name='password'
+            type='password'
             value={this.state.password} 
             onChange={this.handleChange}
             label='password'
-            required 
+            required
           />
 
           <CustomButton type="submit"> 
