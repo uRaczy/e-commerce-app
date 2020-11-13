@@ -25,7 +25,7 @@ const useCredentials = () => {
 const SignUp = () => {
   const { value: displayName, reset: resetDisplayName, onChange: onChangeDisplayName } = useCredentials('');
   const { value: email, reset: resetEmail, onChange: onChangeEmail } = useCredentials('');
-  const { value: password, reset: resetPassword, onChange: onChangeResetPassword } = useCredentials ('');
+  const { value: password, reset: resetPassword, onChange: onChangePassword } = useCredentials ('');
 
 
   const handleSubmit = event => {
@@ -61,7 +61,7 @@ const SignUp = () => {
         <FormInput
           name="Password"
           type="password"
-          onChange={event => onChangeResetPassword(event)}
+          onChange={event => onChangePassword(event)}
           value={password}
           label="Password"
           required
